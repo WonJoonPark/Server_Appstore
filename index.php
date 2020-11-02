@@ -16,7 +16,7 @@ ini_set('default_charset', 'utf8mb4');
 //Main Server API
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     /* ******************   Test   ****************** */
-    $r->addRoute('GET', '/item', ['ItemGetController', 'item']);
+    $r->addRoute('GET', '/test', ['MainController', 'test']);
 
 
 

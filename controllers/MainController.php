@@ -63,6 +63,10 @@ try {
             $res->message = "로그인에 성공하였습니다.";
             echo json_encode($res, JSON_NUMERIC_CHECK);
             break;
+        case"test":{
+            echo "test";
+            return;
+        }
 
     }
 } catch (\Exception $e) {
