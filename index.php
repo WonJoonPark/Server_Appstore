@@ -1,6 +1,7 @@
 <?php
 require './pdos/DatabasePdo.php';
 require './pdos/MainPdo.php';
+require './pdos/AppPdo.php';
 require './vendor/autoload.php';
 
 
@@ -17,6 +18,7 @@ ini_set('default_charset', 'utf8mb4');
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     /* ******************   Test   ****************** */
     $r->addRoute('GET', '/test', ['MainController', 'test']);
+    $r->addRoute('GET','/apps',['AppController','applist']);
 
 
 
@@ -70,6 +72,11 @@ switch ($routeInfo[0]) {
                 $handler = $routeInfo[1][1];
                 $vars = $routeInfo[2];
                 require './controllers/MainController.php';
+                break;
+            case 'AppController':
+                $handler = $routeInfo[1][1];
+                $vars = $routeInfo[2];
+                require './controllers/AppController.php';
                 break;
          
             /*case 'function':
