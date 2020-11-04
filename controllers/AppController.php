@@ -25,6 +25,23 @@ try {
             echo json_encode($res,JSON_NUMERIC_CHECK);
             break;
         }
+        case "searchapp":{
+            $searchword=$_GET['word'];
+            if(isset($searchword)==FALSE){
+                $res->isSuccess=FALSE;
+                $res->code=200;
+                $res->message="검색어를 입력해주세요";
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
+            http_response_code(200);
+            $res->result=searchappsword($searchword);
+            $res->isSuccess=TRUE;
+            $res->code=100;
+            $res->message="검색 완료";
+            echo json_encode($res,JSON_NUMERIC_CHECK);
+            break;
+        }
     }
 } catch (\Exception $e) {
     return getSQLErrorException($errorLogs, $e, $req);

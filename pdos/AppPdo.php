@@ -31,3 +31,7 @@ function searchapps($keyw, $dev){
     $pdo = null;
     return $res;
 }
+
+function searchappsword($word){
+    $pdo = pdoSqlConnect();
+}
