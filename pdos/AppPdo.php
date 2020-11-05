@@ -21,8 +21,8 @@ function searchapps($keyw, $dev){
         case "devrecent":{
             $query=$initquery."AND DevName='$dev' AND date(CreateAt) >=date(subdate(now(),INTERVAL 30 DAY )) and date(CreateAt) <= date(now())
             ORDER BY CreateAt desc LIMIT 15;";
-            }
         }
+    }
     $st = $pdo->prepare($query);
     $st->execute();
     $st->setFetchMode(PDO::FETCH_ASSOC);
@@ -30,8 +30,4 @@ function searchapps($keyw, $dev){
     $st = null;
     $pdo = null;
     return $res;
-}
-
-function searchappsword($word){
-    $pdo = pdoSqlConnect();
 }

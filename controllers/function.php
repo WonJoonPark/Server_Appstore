@@ -27,7 +27,7 @@ function isValidHeader($jwt, $key) /*토큰에 담긴 정보 추출*/
         // 유효한토큰인지 기간등을 검사??
         if($data->exp<strtotime("Now")){return false;}
         if($data->platform=='a'){
-        return isValidUser($data->id, $data->pw);
+            return isValidUser($data->id, $data->pw);
         }
         if($data->platform=='k'){
             return isValidkakao($data->id);

@@ -19,7 +19,6 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     /* ******************   Test   ****************** */
     $r->addRoute('GET', '/test', ['MainController', 'test']);
     $r->addRoute('GET','/apps',['AppController','applist']);
-    $r->addRoute('Get','/search',['AppController','searchapp']);
 
 
 
@@ -79,7 +78,7 @@ switch ($routeInfo[0]) {
                 $vars = $routeInfo[2];
                 require './controllers/AppController.php';
                 break;
-         
+
             /*case 'function':
                 $handler = $routeInfo[1][1];
                 $vars = $routeInfo[2];
