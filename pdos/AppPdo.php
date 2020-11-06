@@ -45,7 +45,7 @@ function isValidAppId($appid){
 }
 function AppSpecification($appid){
     $pdo = pdoSqlConnect();
-    $firstquery="SELECT IconImage,ApplicationId,ApplicationName,Price,Summary,(EvaluationSum/EvaluationCount) as Evaluation,
+    $firstquery="SELECT IconImage,ApplicationId,ApplicationName,Price,Summary,InAppPurchase,
        Ages,Chart,DevName,DetailInfo,Appsize,Category,Compatibility,Word,WordCount,WordDetail,Copyright FROM Application
         WHERE IsDeleted='N' AND ApplicationId=?";
     $st = $pdo->prepare($firstquery);
