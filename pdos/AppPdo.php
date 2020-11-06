@@ -31,3 +31,42 @@ function searchapps($keyw, $dev){
     $pdo = null;
     return $res;
 }
+function isValidAppId($appid){
+    $pdo = pdoSqlConnect();
+    $query = "SELECT EXISTS(SELECT * FROM Application WHERE ApplicationId= ?
+                        AND IsDeleted='N') AS exist;";
+    $st = $pdo->prepare($query);
+//    $st->execute([$param,$param]);
+    $st->execute([$appid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+    $st=null;$pdo = null;
+    return intval($res[0]["exist"]);
+}
+function AppSpecification($appid){
+    $pdo = pdoSqlConnect();
+    $firstquery="SELECT IconImage,ApplicationId,ApplicationName,Price,Summary,(EvaluationSum/EvaluationCount) as Evaluation,
+       Ages,Chart,DevName,DetailInfo,Appsize,Category,Compatibility,Word,WordCount,WordDetail,Copyright FROM Application
+        WHERE IsDeleted='N' AND ApplicationId=?";
+    $st = $pdo->prepare($firstquery);
+//    $st->execute([$param,$param]);
+    $st->execute([$appid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $firstres = $st->fetchAll();
+    $st=null;$pdo = null;
+
+    $pdo = pdoSqlConnect();
+    $secondquery="SELECT ImageUrl as AppImages FROM AppImage
+        WHERE IsDeleted='N' AND ApplicationId=? ORDER BY 'Order' asc";
+    $st = $pdo->prepare($secondquery);
+//    $st->execute([$param,$param]);
+    $st->execute([$appid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $secondres=$st->fetchAll();
+    $firstres[0]['ImageSet']=$secondres;
+    $st=null;$pdo = null;
+
+    return $firstres;
+}
+
+

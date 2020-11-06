@@ -19,7 +19,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     /* ******************   Test   ****************** */
     $r->addRoute('GET', '/test', ['MainController', 'test']);
     $r->addRoute('GET','/apps',['AppController','applist']);
-
+    $r->addRoute('GET','/app/specification',['AppController','specification']);
 
 
 //    $r->addRoute('GET', '/users', 'get_all_users_handler');
