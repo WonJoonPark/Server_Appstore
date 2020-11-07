@@ -26,7 +26,6 @@ try {
                 $res->message="조회된 항목이 없습니다.";
                 echo json_encode($res,JSON_NUMERIC_CHECK);
             }
-            http_response_code(200);
             $res->isSuccess=TRUE;
             $res->code=100;
             $res->keyword=$keyw;

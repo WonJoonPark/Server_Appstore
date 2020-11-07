@@ -66,7 +66,7 @@ function AppSpecification($appid){
     $firstres[0]['ImageSet']=$secondres;
     $st=null;$pdo = null;
 
-    return $firstres;
+    return $firstres[0];
 }
 
 
