@@ -3,6 +3,7 @@ require './pdos/DatabasePdo.php';
 require './pdos/MainPdo.php';
 require './pdos/AppPdo.php';
 require './pdos/AdvertisementPdo.php';
+require './pdos/UpdateInfoPdo.php';
 require './vendor/autoload.php';
 
 
@@ -22,6 +23,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET','/apps',['AppController','applist']);
     $r->addRoute('GET','/app/specification',['AppController','specification']);
     $r->addRoute('GET','/app/advertisement',['AdvertisementController','adverlist']);
+    $r->addRoute('GET','/app/updateinfo',['UpdateInfoController','updatelist']);
 
 //    $r->addRoute('GET', '/users', 'get_all_users_handler');
 //    // {id} must be a number (\d+)
@@ -84,6 +86,12 @@ switch ($routeInfo[0]) {
                 $vars = $routeInfo[2];
                 require './controllers/AdvertisementController.php';
                 break;
+            case 'UpdateInfoController':
+                $handler = $routeInfo[1][1];
+                $vars = $routeInfo[2];
+                require './controllers/UpdateInfoController.php';
+                break;
+
             /*case 'function':
                 $handler = $routeInfo[1][1];
                 $vars = $routeInfo[2];

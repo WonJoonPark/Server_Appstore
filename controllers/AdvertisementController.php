@@ -16,7 +16,8 @@ try {
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->message="조회된 항목이 없습니다.";
-                echo json_encode($res,JSON_NUMERIC_CHECK);
+		echo json_encode($res,JSON_NUMERIC_CHECK);
+		break;
             }
             $res->LastCursor=$cursor;
             $res->isSuccess=TRUE;
