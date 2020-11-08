@@ -18,6 +18,13 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
+            if(isValidAppid($appid)==FALSE){
+                $res->isSuccess=FALSE;
+                $res->code=200;
+                $res->message="존재하지 않는 앱 ID 입니다";
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                break;
+            }
             $res->result=updatelist($appid);
             if(empty($res)){
                 $res->isSuccess=FALSE;
@@ -32,6 +39,7 @@ try {
             echo json_encode($res,JSON_NUMERIC_CHECK);
             break;
            }
+
     }
 } catch (\Exception $e) {
     return getSQLErrorException($errorLogs, $e, $req);

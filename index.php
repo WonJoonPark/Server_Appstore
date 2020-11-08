@@ -4,6 +4,7 @@ require './pdos/MainPdo.php';
 require './pdos/AppPdo.php';
 require './pdos/AdvertisementPdo.php';
 require './pdos/UpdateInfoPdo.php';
+require './pdos/UserPdo.php';
 require './vendor/autoload.php';
 
 
@@ -24,6 +25,16 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET','/app/specification',['AppController','specification']);
     $r->addRoute('GET','/app/advertisement',['AdvertisementController','adverlist']);
     $r->addRoute('GET','/app/updateinfo',['UpdateInfoController','updatelist']);
+    $r->addRoute('GET','/apps/searchword',['AppController','searchword']);
+    $r->addRoute('GET','/login',['UserController','login']);
+    $r->addRoute('GET','/user/download',['UserController','purchaselist']);
+
+
+    $r->addRoute('POST','/user/download',['UserController','purchase']);
+
+    $r->addRoute('POST','/kakao_login_gettoken',['UserController','gettoken']);
+
+
 
 //    $r->addRoute('GET', '/users', 'get_all_users_handler');
 //    // {id} must be a number (\d+)
@@ -90,6 +101,11 @@ switch ($routeInfo[0]) {
                 $handler = $routeInfo[1][1];
                 $vars = $routeInfo[2];
                 require './controllers/UpdateInfoController.php';
+                break;
+            case 'UserController':
+                $handler = $routeInfo[1][1];
+                $vars = $routeInfo[2];
+                require './controllers/UserController.php';
                 break;
 
             /*case 'function':

@@ -69,4 +69,33 @@ function AppSpecification($appid){
     return $firstres[0];
 }
 
+function SearchAppList($word){
+    $pdo = pdoSqlConnect();
+    $firstquery="SELECT IconImage,ApplicationId,ApplicationName,Summary,Price,InAppPurchase,
+       (100*(ApplicationName LIKE '%$word%')+100*(DevName LIKE '%$word%')+
+       10*(Category LIKE '%$word%')+1*(Summary LIKE '%$word%')) as score FROM Application
+WHERE IsDeleted='N' AND (ApplicationName LIKE '%$word%' OR (DevName LIKE '%$word%')
+  OR (Category LIKE '%$word%') OR (Summary LIKE '%$word%')) ORDER BY score desc";
+    $st = $pdo->prepare($firstquery);
+    $st->execute();
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $firstres = $st->fetchAll();
+    $st = null;
 
+    $secondquery = "SELECT ImageUrl as AppImages FROM AppImage
+        WHERE IsDeleted='N' AND ApplicationId=? ORDER BY 'Order' asc";
+
+    for($i=0; $i<sizeof($firstres); $i=$i+1) {
+        $st = $pdo->prepare($secondquery);
+//    $st->execute([$param,$param]);
+        $st->execute([$firstres[$i]['ApplicationId']]);
+        $st->setFetchMode(PDO::FETCH_ASSOC);
+        $secondres = $st->fetchAll();
+        $firstres[$i]['ImageSet'] = $secondres;
+        $st = null; $secondres=null;
+        unset($firstres[$i]['score']);
+    }
+    $pdo = null;
+
+    return $firstres;
+}

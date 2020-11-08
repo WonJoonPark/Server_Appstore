@@ -22,16 +22,8 @@ function getSQLErrorException($errorLogs, $e, $req)
 function isValidHeader($jwt, $key) /*토큰에 담긴 정보 추출*/
 {
     try {
-        $data = getDataByJWToken($jwt, $key);
-        //로그인 함수 직접 구현 요함
-        // 유효한토큰인지 기간등을 검사??
-        if($data->exp<strtotime("Now")){return false;}
-        if($data->platform=='a'){
-            return isValidUser($data->id, $data->pw);
-        }
-        if($data->platform=='k'){
-            return isValidkakao($data->id);
-        }
+        $data = getDataByJWToken($jwt,$key);
+            return isValidUser($data->id);
         /*mainpdo.php*/
     } catch (\Exception $e) {
         return false;
@@ -83,34 +75,12 @@ function getTodayByTimeStamp()
 {
     return date("Y-m-d H:i:s");
 }
-
-function getJWToken($id, $pw, $secretKey)
+function getJWTokenkakao($id,$nickname,$secretKey)
 {
-    $exp=strtotime("+6 hours");
     $data = array(
         'date' => (string)getTodayByTimeStamp(),
         'id' => (string)$id,
-        'platform'=>'a',
-        'pw' => (string)$pw,
-        'exp'=>$exp
-    );
-
-//    echo json_encode($data);
-
-    return $jwt = JWT::encode($data, $secretKey);
-
-//    echo "encoded jwt: " . $jwt . "n";
-//    $decoded = JWT::decode($jwt, $secretKey, array('HS256'))
-//    print_r($decoded);
-}
-function getJWTokenkakao($id, $secretKey)
-{
-    $exp=strtotime("+6 hours");
-    $data = array(
-        'date' => (string)getTodayByTimeStamp(),
-        'id' => (string)$id,
-        'platform'=>'k',
-        'exp'=>$exp
+        'nickname' =>(string)$nickname
     );
 //    echo json_encode($data);
     return $jwt = JWT::encode($data, $secretKey);
