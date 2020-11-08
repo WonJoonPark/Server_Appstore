@@ -21,7 +21,8 @@ function advertisementlist(&$cursor){
        Summary,Category,AdvertisementApp.Detail as DetailInfo FROM AdvertisementApp
         join Application
         WHERE AdvertisementApp.IsDeleted='N' AND Application.ApplicationId=AdvertisementApp.ApplicationId
-        ORDER BY  FLOOR($cursor + (RAND() * 10)) Limit 6";
+         AND Application.ApplicationId BETWEEN $cursor AND $cursor+9
+        ORDER BY (FLOOR(RAND() * 10)) Limit 6 ";
     $st = $pdo->prepare($initquery);
 //    $st->execute([$param,$param]);
     $st->execute();
