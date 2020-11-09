@@ -72,8 +72,8 @@ function AppSpecification($appid){
 function SearchAppList($word){
     $pdo = pdoSqlConnect();
     $firstquery="SELECT IconImage,ApplicationId,ApplicationName,Summary,Price,InAppPurchase,
-       (100*(ApplicationName LIKE '%$word%')+100*(DevName LIKE '%$word%')+
-       10*(Category LIKE '%$word%')+1*(Summary LIKE '%$word%')) as score FROM Application
+       (100000*(ApplicationName LIKE '%$word%')+100000*(DevName LIKE '%$word%')+
+       10000*(Category LIKE '%$word%')+1000*(Summary LIKE '%$word%'))+(1000-Chart) as score FROM Application
 WHERE IsDeleted='N' AND (ApplicationName LIKE '%$word%' OR (DevName LIKE '%$word%')
   OR (Category LIKE '%$word%') OR (Summary LIKE '%$word%')) ORDER BY score desc";
     $st = $pdo->prepare($firstquery);
