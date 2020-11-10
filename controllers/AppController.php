@@ -13,13 +13,16 @@ try {
             $keyw=$_GET['keyword'];
             $devname=$_GET['devname'];
             if($keyw=="dev" && isset($devname)==FALSE){
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
+                $res->message="개발자 명을 입력해주세요.";
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
             $res->result=searchapps($keyw,$devname);
             if(empty($res->result)){
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->keyword=$keyw;
@@ -59,6 +62,7 @@ try {
         case "searchword":{
             $word=$_GET['word'];
             if(isset($word)==FALSE){ //검색어가 입력되지 않았을 때
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->message="검색어를 입력해주세요";
@@ -68,6 +72,7 @@ try {
 
             $res->result=SearchAppList($word);
             if(empty($res->result)){
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->message="해당 단어에 검색된 항목이 없습니다.";
