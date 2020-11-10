@@ -14,8 +14,8 @@ function advertisementlist(&$cursor){
         $cursor=rand(1,$countres[0]['cnt']);
     }
     $st=null;
-    if($cursor+9>$countres){$cursor=$cursor%$countres;} //데이터 개수 범위를 벗어날 수도 있음
-
+    if($cursor+9>$countres[0]['cnt']){
+        $cursor=rand(1,$countres[0]['cnt']-10);} //데이터 개수 범위를 벗어날 수도 있음
 
     $initquery="SELECT AdvertisementApp.ThumbnailUrl,IconImage,Application.ApplicationId,ApplicationName,Price,InAppPurchase,
        Summary,Category,AdvertisementApp.Detail as DetailInfo FROM AdvertisementApp
