@@ -10,7 +10,7 @@ try {
     addAccessLogs($accessLogs, $req);
     switch ($handler) {
         case "login":{
-            $accesstoken = $_SERVER["HTTP_X_ACCESS_TOKEN"];
+            $accesstoken = $req->X_ACCESS_TOKEN;
             $url="https://kapi.kakao.com/v2/user/me";
             $isPost = false;
             $ch = curl_init();

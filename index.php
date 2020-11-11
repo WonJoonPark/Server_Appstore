@@ -29,7 +29,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET','/app/advertisement',['AdvertisementController','adverlist']);
     $r->addRoute('GET','/app/updateinfo',['UpdateInfoController','updatelist']);
     $r->addRoute('GET','/apps/searchword',['AppController','searchword']);
-    $r->addRoute('GET','/login',['UserController','login']);
+    $r->addRoute('POST','/login',['UserController','login']);
     $r->addRoute('GET','/user/download',['UserController','purchaselist']);
 
     $r->addRoute('POST','/user/download',['UserController','purchase']);
