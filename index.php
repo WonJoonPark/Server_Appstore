@@ -6,7 +6,9 @@ require './pdos/AdvertisementPdo.php';
 require './pdos/UpdateInfoPdo.php';
 require './pdos/UserPdo.php';
 require './pdos/ReviewPdo.php';
+require './pdos/ChartPdo.php';
 require './vendor/autoload.php';
+
 
 
 use \Monolog\Logger as Logger;
@@ -41,6 +43,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('PATCH','/review/{reviewid}/answer',['ReviewController','patchanswer']);
     $r->addRoute('POST','/kakao_login_gettoken',['UserController','gettoken']);
     $r->addRoute('DELETE','/user',['UserController','deluser']);
+
+    $r->addRoute('PATCH','/application/categorychart',['ChartController','changechart']);
 
 
 //    $r->addRoute('GET', '/users', 'get_all_users_handler');
@@ -118,6 +122,11 @@ switch ($routeInfo[0]) {
                 $handler = $routeInfo[1][1];
                 $vars = $routeInfo[2];
                 require './controllers/ReviewController.php';
+                break;
+            case 'ChartController':
+                $handler = $routeInfo[1][1];
+                $vars = $routeInfo[2];
+                require './controllers/ChartController.php';
                 break;
 
             /*case 'function':

@@ -7,9 +7,6 @@ function searchapps($keyw, $dev,$pagenum){
             WHERE isDeleted='N'";
     $pagecursor=12*($pagenum-1);
     switch ($keyw){
-        case "popularity":{
-            $query=$initquery."ORDER BY WeekDownCount desc LIMIT $pagecursor,12";
-            break;}
         case "popularityfinance":{
             $query=$initquery."AND Category='금융' ORDER BY WeekDownCount desc LIMIT $pagecursor,12;";
             break;}
@@ -22,6 +19,10 @@ function searchapps($keyw, $dev,$pagenum){
         case "devrecent":{
             $query=$initquery."AND DevName='$dev' AND date(CreateAt) >=date(subdate(now(),INTERVAL 30 DAY )) and date(CreateAt) <= date(now())
             ORDER BY CreateAt desc LIMIT $pagecursor,12;";
+            break;
+        }
+        default:{ //popularity
+            $query=$initquery."ORDER BY WeekDownCount desc LIMIT $pagecursor,12";
             break;
         }
     }
