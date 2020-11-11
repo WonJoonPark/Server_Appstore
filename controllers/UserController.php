@@ -22,13 +22,15 @@ try {
             $result=json_decode(curl_exec($ch),true);
             curl_close($ch);
             if(!isset($result['id'])){
-                $res['isSuccess']=FALSE;
-                $res['code']=200;
-                $res['message']="토큰 오류 입니다.";
+                $res->result=NULL;
+                $res->isSuccess=FALSE;
+                $res->code=200;
+                $res->message="토큰오류 입니다";
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 return;
             }
             if(isalreadykakao($result['kakao_account']['email'])){ //이미 있다면
+
                 $jwt=getJWTokenkakao($result['id'],
                     $result['kakao_account']['profile']['nickname'],JWT_SECRET_KEY); // 토큰발급
                 //            $res->result->jwt = $jwt;
