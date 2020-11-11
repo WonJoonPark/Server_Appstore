@@ -10,6 +10,16 @@ function insertkakaouser($id,$email,$nickname){
     $pdo = null;
 
 }
+function resetuser($userid){
+    $pdo = pdoSqlConnect();
+    $query="UPDATE User SET IsDeleted='N',CreateAt=now()
+                    WHERE UserId=?;";
+    $st = $pdo->prepare($query);
+    $st->execute([$userid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $st = null;
+    $pdo = null;
+}
 
 function UserPurchase($data,$appid){
     $userid=$data->id;
@@ -59,14 +69,15 @@ function UserDownloadSearch($data,$appid){
 
     return intval($res[0]["exist"]);
 }
-function PurchaseList($data,$kind){
+function PurchaseList($data,$kind,$pagenum){
     $userid=$data->id;
+    $pagenum=12*($pagenum-1);
     $pdo=pdoSqlConnect();
     if($kind=='purchase'){$k='P';}
     else{$k='S';}
 
     $firstquery = "SELECT ApplicationId,CreateAt as DownloadAt,ModifyAt FROM Purchase
-                WHERE IsDeleted='N' AND UserId=? AND PorS=?;";
+                WHERE IsDeleted='N' AND UserId=? AND PorS=? LIMIT $pagenum,12;";
     $st = $pdo->prepare($firstquery);
     $st->execute([$userid,$k]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
@@ -87,5 +98,14 @@ function PurchaseList($data,$kind){
     }
     $pdo=null;
     return $firstres;
-
+}
+function DeleteUser($userid){
+    $pdo = pdoSqlConnect();
+    $secondquery="UPDATE User SET IsDeleted='Y'
+                    WHERE UserId=?;";
+    $st = $pdo->prepare($secondquery);
+    $st->execute([$userid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $st = null;
+    $pdo = null;
 }

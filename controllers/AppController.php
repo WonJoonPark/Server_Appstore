@@ -12,6 +12,7 @@ try {
         case"applist":{
             $keyw=$_GET['keyword'];
             $devname=$_GET['devname'];
+            $pagenum=$_GET['pagenum'];
             if($keyw=="dev" && isset($devname)==FALSE){
                 $res->result=NULL;
                 $res->isSuccess=FALSE;
@@ -20,7 +21,7 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 break;
             }
-            $res->result=searchapps($keyw,$devname);
+            $res->result=searchapps($keyw,$devname,$pagenum);
             if(empty($res->result)){
                 $res->result=NULL;
                 $res->isSuccess=FALSE;
@@ -61,6 +62,7 @@ try {
         }
         case "searchword":{
             $word=$_GET['word'];
+            $pagenum=$_GET['pagenum'];
             if(isset($word)==FALSE){ //검색어가 입력되지 않았을 때
                 $res->result=NULL;
                 $res->isSuccess=FALSE;
@@ -70,7 +72,7 @@ try {
                 break;
             }
 
-            $res->result=SearchAppList($word);
+            $res->result=SearchAppList($word,$pagenum);
             if(empty($res->result)){
                 $res->result=NULL;
                 $res->isSuccess=FALSE;

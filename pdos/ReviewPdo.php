@@ -74,3 +74,36 @@ function delreview($reviewid){
     $st = null;
     $pdo = null;
 }
+
+function DeleteAnswer($reviewid){
+    $pdo = pdoSqlConnect();
+    $secondquery="UPDATE Review SET Answer=NULL, AnswerAt=NULL
+                    WHERE ReviewId=?;";
+    $st = $pdo->prepare($secondquery);
+    $st->execute([$reviewid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $st = null;
+    $pdo = null;
+}
+
+function PatchReview($reviewid,$Comment){
+    $pdo = pdoSqlConnect();
+    $secondquery="UPDATE Review SET Comment=?
+                    WHERE ReviewId=?;";
+    $st = $pdo->prepare($secondquery);
+    $st->execute([$Comment,$reviewid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $st = null;
+    $pdo = null;
+}
+
+function PatchAnswer($reviewid,$Comment){
+    $pdo = pdoSqlConnect();
+    $secondquery="UPDATE Review SET Answer=?,AnswerAt=now()
+                    WHERE ReviewId=?;";
+    $st = $pdo->prepare($secondquery);
+    $st->execute([$Comment,$reviewid]);
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $st = null;
+    $pdo = null;
+}

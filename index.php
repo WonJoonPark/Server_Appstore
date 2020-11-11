@@ -36,9 +36,11 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST','/application/{applicationid}/review',['ReviewController','insertreview']);
     $r->addRoute('POST','/review/{reviewid}/answer',['ReviewController','insertanswer']);
     $r->addRoute('DELETE','/review/{reviewid}',['ReviewController','delreview']);
-
+    $r->addRoute('DELETE','/review/{reviewid}/answer',['ReviewController','delanswer']);
+    $r->addRoute('PATCH','/review/{reviewid}',['ReviewController','patchreview']);
+    $r->addRoute('PATCH','/review/{reviewid}/answer',['ReviewController','patchanswer']);
     $r->addRoute('POST','/kakao_login_gettoken',['UserController','gettoken']);
-
+    $r->addRoute('DELETE','/user',['UserController','deluser']);
 
 
 //    $r->addRoute('GET', '/users', 'get_all_users_handler');

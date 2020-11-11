@@ -62,7 +62,7 @@ try {
                         echo json_encode($res,JSON_NUMERIC_CHECK);
                         return;
                 }
-                elseif(isset($req->Title)==FALSE AND isset($req->Comment)==FALSE){ //그냥 평가
+                elseif(isset($req->Title)==FALSE AND isset($req->Comment)){ //그냥 평가
                     $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
                     InsertReview($data,$appid,NULL,NULL,$stars);
                     $res->isSuccess=TRUE;
@@ -95,7 +95,7 @@ try {
 
             if(isValidHeader($jwt,JWT_SECRET_KEY)){ //올바른 유저의 접근임을 확인
                 $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
-                if(isValidDeveloper($data->nickname,$reviewid)){
+                if(isValidDeveloper($data->nickname,$reviewid)==FALSE){
                     //로그인한 아이디가 그 어플의 개발자인지 확인
                     InsertAnswer($reviewid,$req->Answer);
                     $res->isSuccess=TRUE;
@@ -137,6 +137,89 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 return;
                 }
+            $res->isSuccess=FALSE;
+            $res->code=200;
+            $res->message="잘못된 접근입니다. 다시 로그인부터 진행해주세요";
+            echo json_encode($res,JSON_NUMERIC_CHECK);
+            return;
+            }
+        case "delanswer":{
+            $url =$_SERVER['REQUEST_URI'];
+            $tmp=explode('/',$url);
+            $reviewid=$tmp[2];
+            $jwt=$_SERVER["HTTP_JWT"];
+            if(isValidHeader($jwt,JWT_SECRET_KEY)){
+                $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
+                if(isValidDeveloper($data->nickname,$reviewid)){
+                    //로그인한 아이디가 그 어플의 개발자인지 확인
+                    DeleteAnswer($reviewid);
+                    $res->isSuccess=TRUE;
+                    $res->code=100;
+                    $res->message="답변이 삭제되었습니다.";
+                    echo json_encode($res,JSON_NUMERIC_CHECK);
+                    return;
+                }
+                $res->isSuccess=FALSE;
+                $res->code=200;
+                $res->message="접근하실 수 없는 항목입니다(개발자만 가능)";
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                return;
+
+            }
+            $res->isSuccess=FALSE;
+            $res->code=200;
+            $res->message="잘못된 접근입니다. 다시 로그인부터 진행해주세요";
+            echo json_encode($res,JSON_NUMERIC_CHECK);
+            return;
+            }
+        case "patchreview":{
+            $url =$_SERVER['REQUEST_URI'];
+            $tmp=explode('/',$url);
+            $reviewid=$tmp[2];
+            $jwt=$_SERVER["HTTP_JWT"];
+            if(isValidHeader($jwt,JWT_SECRET_KEY)){
+                $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
+                if(isValidUserReview($data->id,$reviewid)){
+                    PatchReview($reviewid,$req->Comment);
+                    $res->isSuccess=TRUE;
+                    $res->code=100;
+                    $res->message="답변이 수정되었습니다.";
+                    echo json_encode($res,JSON_NUMERIC_CHECK);
+                    return;
+                   }
+                $res->isSuccess=FALSE;
+                $res->code=200;
+                $res->message="접근하실 수 없는 항목입니다";
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                return;
+            }
+            $res->isSuccess=FALSE;
+            $res->code=200;
+            $res->message="잘못된 접근입니다. 다시 로그인부터 진행해주세요";
+            echo json_encode($res,JSON_NUMERIC_CHECK);
+            return;
+            }
+        case "patchanswer":{
+            $url =$_SERVER['REQUEST_URI'];
+            $tmp=explode('/',$url);
+            $reviewid=$tmp[2];
+            $jwt=$_SERVER["HTTP_JWT"];
+            if(isValidHeader($jwt,JWT_SECRET_KEY)){
+                $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
+                if(isValidDeveloper($data->nickname,$reviewid)){
+                    PatchAnswer($reviewid,$req->Comment);
+                    $res->isSuccess=TRUE;
+                    $res->code=100;
+                    $res->message="답변이 수정되었습니다.";
+                    echo json_encode($res,JSON_NUMERIC_CHECK);
+                    return;
+                }
+                $res->isSuccess=FALSE;
+                $res->code=200;
+                $res->message="접근하실 수 없는 항목입니다(개발자만 가능)";
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                return;
+            }
             $res->isSuccess=FALSE;
             $res->code=200;
             $res->message="잘못된 접근입니다. 다시 로그인부터 진행해주세요";

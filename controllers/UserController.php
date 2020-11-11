@@ -39,8 +39,13 @@ try {
                 echo json_encode($res,JSON_NUMERIC_CHECK);
                 return;
             }
-            insertkakaouser($result['id'],$result['kakao_account']['email'],$result['kakao_account']['profile']['nickname']);
-             $jwt=getJWTokenkakao($result['id'],
+            if(isdeleteuser($result['id'])){
+                resetuser($result['id']);
+            }
+            else {
+                insertkakaouser($result['id'], $result['kakao_account']['email'], $result['kakao_account']['profile']['nickname']);
+            }
+            $jwt=getJWTokenkakao($result['id'],
                 $result['kakao_account']['profile']['nickname'],JWT_SECRET_KEY); // 토큰발급
             $res->result->jwt=$jwt;
             $res->isSuccess=TRUE;
@@ -96,11 +101,12 @@ try {
             return;
         }
        case "purchaselist":{
+           $pagenum=$_GET['pagenum'];
             $jwt=$_SERVER["HTTP_JWT"];
             $kind=$_GET['kind'];
             if(isValidHeader($jwt,JWT_SECRET_KEY)){ //올바른 유저의 접근임을 확인
                 $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
-                $res->result=PurchaseList($data,$kind);
+                $res->result=PurchaseList($data,$kind,$pagenum);
                 $res->isSuccess=TRUE;
                 $res->code=100;
                 $res->message="조회 되었습니다";
@@ -108,6 +114,23 @@ try {
                 return;
             }
             $res->result=NULL;
+            $res->isSuccess=FALSE;
+            $res->code=200;
+            $res->message="잘못된 접근입니다. 다시 로그인부터 진행해주세요";
+            echo json_encode($res,JSON_NUMERIC_CHECK);
+            return;
+        }
+        case "deluser":{
+            $jwt=$_SERVER["HTTP_JWT"];
+            if(isValidHeader($jwt,JWT_SECRET_KEY)){ //올바른 유저의 접근임을 확인
+                $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
+                DeleteUser($data->id);
+                $res->isSuccess=TRUE;
+                $res->code=100;
+                $res->message="회원탈퇴 되었습니다.";
+                echo json_encode($res,JSON_NUMERIC_CHECK);
+                return;
+            }
             $res->isSuccess=FALSE;
             $res->code=200;
             $res->message="잘못된 접근입니다. 다시 로그인부터 진행해주세요";
