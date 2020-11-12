@@ -40,6 +40,7 @@ try {
         case "specification":{
             $appid=$_GET['appid'];
             if(isset($appid)==FALSE){
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->message="앱 id가 입력되지 않았습니다.";
@@ -55,6 +56,7 @@ try {
                 break;
 
             }
+            $res->result=NULL;
             $res->isSuccess=FALSE;
             $res->code=200;
             $res->message="조회하신 앱은 없는 앱입니다.";

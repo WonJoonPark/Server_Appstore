@@ -80,11 +80,11 @@ try {
 
             if(isValidHeader($jwt,JWT_SECRET_KEY)){ //올바른 유저의 접근임을 확인
                 $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
-                if(UserDownloadSearch($data,$appid)){
+                if(UserDownloadSearch($data,$appid)){ //이미 구매한 이력이 있는경우
                     $res->result=NULL;
-                    $res->isSuccess=FALSE;
-                    $res->code=200;
-                    $res->message="이미 구매된 내역 입니다";
+                    $res->isSuccess=TRUE;
+                    $res->code=100;
+                    $res->message="다운로드 되었습니다.";
                     echo json_encode($res,JSON_NUMERIC_CHECK);
                     return;
                 }

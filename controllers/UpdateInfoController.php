@@ -12,6 +12,7 @@ try {
         case "updatelist":{
             $appid=$_GET['appid'];
             if(isset($appid)==FALSE){
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->message="ApplicationId 를 입력해주세요";
@@ -19,6 +20,7 @@ try {
                 break;
             }
             if(isValidAppid($appid)==FALSE){
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->message="존재하지 않는 앱 ID 입니다";
@@ -27,6 +29,7 @@ try {
             }
             $res->result=updatelist($appid);
             if(empty($res)){
+                $res->result=NULL;
                 $res->isSuccess=FALSE;
                 $res->code=200;
                 $res->message="업데이트 항목이 없습니다.";
