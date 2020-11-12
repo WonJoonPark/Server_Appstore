@@ -10,7 +10,9 @@ try {
     addAccessLogs($accessLogs, $req);
     switch ($handler) {
         case "updatelist":{
-            $appid=$_GET['appid'];
+            $url =$_SERVER['REQUEST_URI'];
+            $tmp=explode('/',$url);
+            $appid=$tmp[2];
             if(isset($appid)==FALSE){
                 $res->result=NULL;
                 $res->isSuccess=FALSE;

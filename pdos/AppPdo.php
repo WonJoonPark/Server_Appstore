@@ -103,3 +103,18 @@ WHERE IsDeleted='N' AND (ApplicationName LIKE '%$word%' OR (DevName LIKE '%$word
 
     return $firstres;
 }
+
+function PopularCategoryList(){
+    $pdo = pdoSqlConnect();
+    $query="SELECT Category,COUNT(Purchase.ApplicationId) AS score FROM Application
+            LEFT OUTER JOIN Purchase ON Application.ApplicationId=Purchase.ApplicationId
+            WHERE Application.IsDeleted='N' AND Purchase.IsDeleted='N'
+            GROUP BY Category ORDER BY score desc;";
+    $st = $pdo->prepare($query);
+    $st->execute();
+    $st->setFetchMode(PDO::FETCH_ASSOC);
+    $res = $st->fetchAll();
+    $st = null;
+    $pdo = null;
+    return $res;
+}

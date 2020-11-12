@@ -24,12 +24,12 @@ ini_set('default_charset', 'utf8mb4');
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     /* ******************   Test   ****************** */
     $r->addRoute('GET', '/test', ['MainController', 'test']);
-    $r->addRoute('GET','/apps',['AppController','applist']);
-    $r->addRoute('GET','/app/specification',['AppController','specification']);
-    $r->addRoute('GET','/app/advertisement',['AdvertisementController','adverlist']);
-    $r->addRoute('GET','/app/updateinfo',['UpdateInfoController','updatelist']);
-    $r->addRoute('GET','/apps/searchword',['AppController','searchword']);
-    $r->addRoute('POST','/login',['UserController','login']);
+    $r->addRoute('GET','/application',['AppController','applist']);
+    $r->addRoute('GET','/application/{applicationid}/specification',['AppController','specification']);
+    $r->addRoute('GET','/advertisement',['AdvertisementController','adverlist']);
+    $r->addRoute('GET','/application/{applicationid}/updateinfo',['UpdateInfoController','updatelist']);
+    $r->addRoute('GET','/application/search',['AppController','searchword']);
+    $r->addRoute('POST','/user',['UserController','login']);
     $r->addRoute('GET','/user/download',['UserController','purchaselist']);
 
     $r->addRoute('POST','/user/download',['UserController','purchase']);
@@ -46,6 +46,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     $r->addRoute('PATCH','/application/categorychart',['ChartController','changechart']);
 
+    $r->addRoute('GET','/application/popularcategory',['AppController','popularcategorylist']);
 
 //    $r->addRoute('GET', '/users', 'get_all_users_handler');
 //    // {id} must be a number (\d+)

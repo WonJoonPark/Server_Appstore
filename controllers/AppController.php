@@ -38,7 +38,9 @@ try {
             echo json_encode($res,JSON_NUMERIC_CHECK);
             break;}
         case "specification":{
-            $appid=$_GET['appid'];
+            $url =$_SERVER['REQUEST_URI'];
+            $tmp=explode('/',$url);
+            $appid=$tmp[2];
             if(isset($appid)==FALSE){
                 $res->result=NULL;
                 $res->isSuccess=FALSE;
@@ -88,6 +90,15 @@ try {
             $res->message="조회 되었습니다.";
             echo json_encode($res,JSON_NUMERIC_CHECK);
             break;
+        }
+        case "popularcategorylist":{
+            $res->result=PopularCategoryList();
+            $res->isSuccess=TRUE;
+            $res->code=100;
+            $res->message="조회 되었습니다.";
+            echo json_encode($res,JSON_NUMERIC_CHECK);
+            break;
+
         }
     }
 } catch (\Exception $e) {
