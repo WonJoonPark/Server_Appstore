@@ -103,12 +103,11 @@ try {
             return;
         }
        case "purchaselist":{
-           $pagenum=$_GET['pagenum'];
             $jwt=$_SERVER["HTTP_JWT"];
             $kind=$_GET['kind'];
             if(isValidHeader($jwt,JWT_SECRET_KEY)){ //올바른 유저의 접근임을 확인
                 $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
-                $res->result=PurchaseList($data,$kind,$pagenum);
+                $res->result=PurchaseList($data,$kind);
                 $res->isSuccess=TRUE;
                 $res->code=100;
                 $res->message="조회 되었습니다";

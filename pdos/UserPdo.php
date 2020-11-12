@@ -69,15 +69,14 @@ function UserDownloadSearch($data,$appid){
 
     return intval($res[0]["exist"]);
 }
-function PurchaseList($data,$kind,$pagenum){
+function PurchaseList($data,$kind){
     $userid=$data->id;
-    $pagenum=12*($pagenum-1);
     $pdo=pdoSqlConnect();
     if($kind=='purchase'){$k='P';}
     else{$k='S';}
 
     $firstquery = "SELECT ApplicationId,CreateAt as DownloadAt,ModifyAt FROM Purchase
-                WHERE IsDeleted='N' AND UserId=? AND PorS=? LIMIT $pagenum,12;";
+                WHERE IsDeleted='N' AND UserId=? AND PorS=?;";
     $st = $pdo->prepare($firstquery);
     $st->execute([$userid,$k]);
     $st->setFetchMode(PDO::FETCH_ASSOC);
