@@ -95,7 +95,7 @@ try {
 
             if(isValidHeader($jwt,JWT_SECRET_KEY)){ //올바른 유저의 접근임을 확인
                 $data=getDataByJWToken($jwt, JWT_SECRET_KEY);
-                if(isValidDeveloper($data->nickname,$reviewid)==FALSE){
+                if(isValidDeveloper($data->nickname,$reviewid)){
                     //로그인한 아이디가 그 어플의 개발자인지 확인
                     InsertAnswer($reviewid,$req->Answer);
                     $res->isSuccess=TRUE;
